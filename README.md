@@ -2,6 +2,12 @@
 
 Prototype for an umbrella search over a number of Publisher apps
 
+Apps to be used for the prototype:
+
+* [Dodis](https://github.com/eeditiones/dodis-wall)
+* [ELTeC](https://github.com/eeditiones/eltec)
+* other if time allows
+
 ## Preliminary assumptions 
 
 * Publisher 7 based apps
@@ -15,7 +21,7 @@ Prototype for an umbrella search over a number of Publisher apps
 ## Search parameters
 
 * full text query parameter(s) (e.g. search in entire text content, search in headings)
-* metadata parameters (e.g. title, author, sender, date, number)
+* metadata parameters (e.g. title, author, date, number)
 
 ## API endpoints
 
@@ -42,7 +48,7 @@ a document with a title containing the phrase 'TEI' and authored by Turska or Me
 It is assumed that individual apps implement the endpoints in a way, which returns matching results (representing documents or document fragments) in a structure required for the aggregated search, namely:
 
 * in a JSON format containing
-  * document id (or path)
+  * document id (and path relative to the data root)
   * document fragment id (either xml:id or node-id) [optional]
   * full-text match ids [optional]
   * values for all the fields available for sorting
