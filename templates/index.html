@@ -96,15 +96,20 @@
                 ;
             }
             
-            .panels .doclist .card-content {
-                padding: 0;
+            paper-card.search-form, paper-card.tiles {
+                flex: 1;
             }
             
+            paper-card.search-results {
+                flex: 2;
+                margin-right: 20px;
+            }
+
             .panels .doclist .browse {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-                padding: 0;
+                padding: 10;
             }
             
             #document-list {
@@ -112,14 +117,14 @@
                 margin-right: 20px;
             }
             
-            .upload-panel {
+            .search-panel {
                 flex: 1;
                 display: flex;
                 flex-direction: column;
                 min-width: 360px;
             }
             
-            aside .upload {
+            aside .search {
                 --paper-card-header: {
                     background-color: #607D8B;
                 }
@@ -133,9 +138,6 @@
                 ;
             }
             
-            aside .upload {
-                width: 100%;
-            }
             
             .parent-link iron-icon {
                 padding-right: 4px;
@@ -241,6 +243,23 @@
                 padding-left: 1em;
                 vertical-align: middle;
             }
+
+
+            #results {
+                flex: 2 1;
+                overflow: scroll;
+                margin: 0 20px;
+                height: calc(100vh - 140px);
+            }
+
+
+            #results paper-card {
+                width: 100%;
+                margin-bottom: 5px;
+                padding: 8px;
+            }
+
+
         </style>
     </custom-style>
 </head>
@@ -301,11 +320,13 @@
                     </section>
                     
                     <section class="panels">
-                        <paper-card class="applist" heading="Editions">
-                            <pb-load id="apps" url="api/apps" auto=""></pb-load>
+                        <paper-card class="tiles" heading="Editions">
+                            <pb-load id="apps" url="api/apps" auto="" load-once="load-once" subscribe="null"></pb-load>
                         </paper-card>
 
-
+                        <paper-card class="search-results" heading="Search results">
+                            <pb-load id="results" url="api/search/document" emit="results" subscribe="search" auto="" ></pb-load>
+                        </paper-card>
                     <!--
                         <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
                             <div class="card-content">
@@ -326,19 +347,17 @@
                             </div>
                         </paper-card>
 
-                        <pb-load id="results" url="api/search" emit="results"></pb-load>
+                        
                     -->
                             <aside>                   
-                                <paper-card data-i18n="[heading]search.search" heading="Search">
+                                <paper-card class="search-form" data-i18n="[heading]search.search" heading="Search">
                                     <div class="card-content">
-                                        <pb-search id="search-form" subscribe="search"
+                                        <pb-search id="search-form" subscribe="search" emit="search"
                                                 data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
                                                 <paper-input label="Author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
                                                 <paper-input label="Title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
                                                 <paper-input label="Language" name="language" data-template="pages:parse-params" value="${language}"></paper-input>
                                         </pb-search>
-        <!--pb-load url="templates/search-results.html"></pb-load-->
-
         <!--pb-custom-form id="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/-->
 
 

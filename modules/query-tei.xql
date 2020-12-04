@@ -24,6 +24,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
 import module namespace config="http://www.tei-c.org/tei-simple/config" at "config.xqm";
 import module namespace nav="http://www.tei-c.org/tei-simple/navigation/tei" at "navigation-tei.xql";
 import module namespace query="http://www.tei-c.org/tei-simple/query" at "query.xql";
+import module namespace http = "http://expath.org/ns/http-client";
 
 declare function teis:query-default($fields as xs:string+, $query as xs:string, $target-texts as xs:string*,
     $sortBy as xs:string*) {
@@ -196,14 +197,42 @@ declare function teis:get-current($config as map(*), $div as node()?) {
 };
 
 declare function teis:query-document($request as map(*)) {
-   'foo'
+        let $author := $request?parameters?author
+        let $title := $request?parameters?title
+        let $language := $request?parameters?language
+        let $query := $request?parameters?query
+
+     let $request := 
+            <http:request method="GET" 
+            href="http://localhost:8080/exist/apps/eltec/api/search/document?query={$query}&amp;title={$title}&amp;author={$author}&amp;language={$language}"/>
+            
+        let $response := http:send-request($request)
+        let $result := parse-json(util:base64-decode($response[2]))
+
+        return 
+            <div>
+                <h3>Query: author:{$author}  language: {$language} title: {$title} containing: {$query}</h3>
+                <h4>Matches: {array:size($result)}</h4>
+
+                {teis:display($result)}
+            </div>
 };
 
+declare function teis:display($result) {
+    for $i in 1 to array:size($result)
+
+    let $entry:=$result($i)
+    return 
+
+        <paper-card>
+            <h3>{$entry?filename}</h3>
+            <h4>{$entry?author} <i>{$entry?title}</i></h4>
+        </paper-card>
+};
 
 declare function teis:query-apps-available($request as map(*)) {
 
     for $app in $config:sub 
-        let $title := $app?title
         return     
 
         <div>

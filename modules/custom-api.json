@@ -142,9 +142,9 @@
                     "200":{
                         "description": "Version information about this service",
                         "content": {
-                            "application/json":{
-                                "schema":{
-                                    "type": "object"
+                            "text/html": {
+                                "schema": {
+                                    "type": "string"
                                 }
                             }
                         }
