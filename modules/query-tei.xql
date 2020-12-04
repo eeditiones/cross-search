@@ -194,3 +194,28 @@ declare function teis:get-current($config as map(*), $div as node()?) {
         else
             (nav:filler($config, $div), $div)[1]
 };
+
+declare function teis:query-document($request as map(*)) {
+   'foo'
+};
+
+
+declare function teis:query-apps-available($request as map(*)) {
+
+    for $app in $config:sub 
+        let $title := $app?title
+        return     
+
+        <div>
+            <div class="round">
+                <a href="../{$app?app}/index.html"  data-template="pages:parse-params"
+                    title="{$app?title}" target="_blank">
+                        <img height="160px" alt="{$app?title}" src="../{$app?app}/resources/images/{$app?icon}" data-template="pages:parse-params"/>
+                        
+                </a>
+                
+            </div>
+            <h3>{$app?title}</h3>
+        </div>
+           
+};

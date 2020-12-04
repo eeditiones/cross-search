@@ -25,6 +25,133 @@
         }
     },
     "paths": {
+        "/api/apps": {
+            "get": {
+                "summary": "Retrieve listing of editions available",
+                "tags": [
+                    "search"
+                ],
+                "operationId": "qapi:query-apps-available",
+                "responses": {
+                    "200":{
+                        "description": "List of editions for this service",
+                        "text/html": {
+                            "schema": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/search/document": {
+            "get": {
+                "summary": "Retrieve documents matching search criteria",
+                "tags": [
+                    "search"
+                ],
+                "operationId": "qapi:query-document",
+                "parameters": [
+                    {
+                        "name": "query",
+                            "in": "query",
+                            "description": "Query string",
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": "este"
+                    },
+                    {
+                        "name": "query-operator",
+                            "in": "query",
+                            "description": "Logical conjunction for text queries",
+                            "schema": {
+                                "type": "string",
+                                "default": "or"
+                            }
+                    },
+                    {
+                        "name": "author",
+                            "in": "query",
+                            "description": "Author",
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": "z*"
+                    },
+                    {
+                        "name": "author-operator",
+                            "in": "query",
+                            "description": "Logical conjunction for author queries",
+                            "schema": {
+                                "type": "string",
+                                "default": "or"
+                            }
+                    },
+
+                    {
+                        "name": "title",
+                            "in": "query",
+                            "description": "Title",
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": "rom*"
+                    },
+                    {
+                        "name": "title-operator",
+                            "in": "query",
+                            "description": "Logical conjunction for title queries",
+                            "schema": {
+                                "type": "string",
+                                "default": "or"
+                            }
+                    },
+                    {
+                        "name": "language",
+                            "in": "query",
+                            "description": "Language",
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "example": "ro"
+                    },
+                    {
+                        "name": "title-operator",
+                            "in": "query",
+                            "description": "Logical conjunction for title queries",
+                            "schema": {
+                                "type": "string",
+                                "default": "or"
+                            }
+                    }
+                ],
+                "responses": {
+                    "200":{
+                        "description": "Version information about this service",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "security": [
         {

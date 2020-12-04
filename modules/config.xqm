@@ -91,6 +91,18 @@ declare variable $config:pagination-depth := 10;
  :)
 declare variable $config:pagination-fill := 5;
 
+declare variable $config:sub := (
+    map {
+        "app": "eltec", 
+        "title": "ELTeC: European Literary Corpus",
+        "icon": "eltec-logo.jpeg"
+    },
+    map { 
+        "app": "dodis-facets",
+        "title": "Dodis: When the Wall Came Down",
+        "icon": "trabi.jpg"
+    });
+
 (:
  : Display configuration for facets to be shown in the sidebar. The facets themselves
  : are configured in the index configuration, collection.xconf.
