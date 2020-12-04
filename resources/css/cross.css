@@ -1,0 +1,39 @@
+body {
+    --pb-splash-image: url(../images/cross.png);
+    --pb-header-background-image: none;
+    --pb-drawer-background-color: var(--pb-color-inverse);
+    --pb-menubar-background-color: #67b3da;
+    --pb-menubar-background-image: none;
+    --pb-menubar-color: var(--pb-color-inverse);
+    --pb-toolbar-background-color: #d1dae0;
+    --pb-toolbar-background-image: none;
+    --pb-toolbar-color: var(--pb-color-primary);
+    font: var(--pb-base-font);
+    color: var(--pb-color-primary);
+    margin: 0;
+}
+
+*:focus {
+    outline: none;
+}
+
+.menubar {
+    height: 94px;
+    justify-content: space-between;
+    background-image: var(--pb-menubar-background-image);
+    background-color: var(--pb-menubar-background-color);
+    color: var(--pb-menubar-color);
+    --pb-search-suggestions-color: var(--pb-color-primary);
+    --pb-search-suggestions-background: white;
+}
+
+.menubar .logo {
+    margin: 0 16px 0 0;
+}
+
+.logo img {
+    width: auto;
+    height: 100px;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
