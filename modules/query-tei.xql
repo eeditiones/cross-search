@@ -202,31 +202,33 @@ declare function teis:query-document($request as map(*)) {
         let $language := $request?parameters?language
         let $query := $request?parameters?query
 
-     let $request := 
-            <http:request method="GET" 
-            href="http://localhost:8080/exist/apps/eltec/api/search/document?query={$query}&amp;title={$title}&amp;author={$author}&amp;language={$language}"/>
-            
-        let $response := http:send-request($request)
-        let $result := parse-json(util:base64-decode($response[2]))
+    let $results :=
+        for $app in $config:sub?app
+            let $request := 
+                <http:request method="GET" 
+                href="{$config:server}/{$app}/api/search/document?query={$query}&amp;title={$title}&amp;author={$author}&amp;language={$language}"/>
+                
+        return parse-json(util:base64-decode(http:send-request($request)[2]))
 
-        return 
+    return 
             <div>
                 <h3>Query: author:{$author}  language: {$language} title: {$title} containing: {$query}</h3>
-                <h4>Matches: {array:size($result)}</h4>
+                <h4>Matches: { sum(for $result in $results return array:size($result[1]))}</h4>
 
-                {teis:display($result)}
+                {for $result in $results return teis:display($result)}
             </div>
 };
 
-declare function teis:display($result) {
-    for $i in 1 to array:size($result)
+declare function teis:display($editions) {
+    for $edition in $editions
+    for $i in 1 to array:size($edition)
 
-    let $entry:=$result($i)
+    let $entry:=$edition($i)
     return 
 
         <paper-card>
-            <h3>{$entry?filename}</h3>
-            <h4>{$entry?author} <i>{$entry?title}</i></h4>
+            <h3><a href="{$config:server}/{$entry?app}/{$entry?filename}" target="_blank">{$entry?title}</a></h3>
+            <h4>{$entry?author}</h4>
         </paper-card>
 };
 

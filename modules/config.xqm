@@ -43,6 +43,7 @@ declare variable $config:origin-whitelist := (
     "(?:https?://localhost:.*|https?://127.0.0.1:.*)"
 );
 
+declare variable $config:server := 'http://localhost:8080/exist/apps';
 (:~
  : Should documents be located by xml:id or filename?
  :)
