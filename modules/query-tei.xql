@@ -208,7 +208,14 @@ declare function teis:query-document($request as map(*)) {
                 <http:request method="GET" 
                 href="{$config:server}/{$app}/api/search/document?query={$query}&amp;title={$title}&amp;author={$author}&amp;language={$language}"/>
                 
-        return parse-json(util:base64-decode(http:send-request($request)[2]))
+        let $return:= parse-json(util:base64-decode(http:send-request($request)[2]))
+        return 
+            if ($return instance of map(*)) then 
+                [$return]
+            else if ($return instance of array(*)) then
+                $return
+            else 
+                ()
 
     return 
             <div>
