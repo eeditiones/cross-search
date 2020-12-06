@@ -197,17 +197,23 @@ declare function teis:get-current($config as map(*), $div as node()?) {
 };
 
 declare function teis:query-document($request as map(*)) {
-        let $author := $request?parameters?author
-        let $title := $request?parameters?title
-        let $language := $request?parameters?language
-        let $query := $request?parameters?query
+    let $params := $request?parameters
+    let $q := string-join(
+        for $p in map:keys($params)
+            return 
+                if($params($p)) then 
+                        for $entry in $params($p) return
+                        $p || '=' ||$entry
+                else
+                    ()
+        , '&amp;')
 
     let $data :=
         for $app in $config:sub?app
             let $request := 
                 <http:request method="GET" 
-                href="{$config:server}/{$app}/api/search/document?query={$query}&amp;title={$title}&amp;author={$author}&amp;language={$language}"/>
-                
+                href="{$config:server}/{$app}/api/search/document?{$q}"/>
+                                
             return parse-json(util:base64-decode(http:send-request($request)[2]))
 
 
@@ -246,6 +252,8 @@ declare function teis:display($editions) {
 };
 
 declare function teis:display-facets($editions) {
+
+    
     let $facet-dimensions:= 
         for $config in $config:facets?*
             return $config?dimension
@@ -253,29 +261,59 @@ declare function teis:display-facets($editions) {
 
     (: Aggregate facet data from editions :)
     let $facets:= 
+    map:merge((
         for $dimension in $facet-dimensions
 
         return map {
             $dimension:
+            map:merge(
             for $edition in $editions
                 return
                     $edition($dimension)
+            )
         }
+    ))
 
     return 
 
-    for $dimension in $facet-dimensions
-        let $d := $facets($dimension)
+
+    for $config in $config:facets?*      
+        let $params := request:get-parameter("facet-" || $config?dimension, ())
+
+return
+    for $dimension in $config?dimension
+        for $d in $facets($dimension)
 
         return
             <paper-card>
-                <h4>{$dimension}</h4>
-                {for $key in map:keys($d)
+            <h3><pb-i18n key="{$config?heading}">{$config?heading}</pb-i18n></h3>
+                <table>
+                {for $label in map:keys($d)
                     return 
-                        <li>{$key} {$d($key)} </li>
+                    <tr>
+                        <td>
+                            <paper-checkbox class="facet" name="facet-{$dimension}" value="{$label}">
+                                { if ($label = $params) then attribute checked { "checked" } else () }
+                                {
+                                    if (exists($config?output)) then
+                                        $config?output($label)
+                                    else
+                                        $label
+                                }
+                                
+                            </paper-checkbox>
+                        </td>
+                        <td>
+                            {$d($label)}
+                        </td>
+                    </tr>
                 }
+                </table>
             </paper-card>
 };
+
+
+
 
 declare function teis:query-apps-available($request as map(*)) {
     for $app in $config:sub 
