@@ -202,28 +202,34 @@ declare function teis:query-document($request as map(*)) {
         let $language := $request?parameters?language
         let $query := $request?parameters?query
 
-    let $results :=
+    let $data :=
         for $app in $config:sub?app
             let $request := 
                 <http:request method="GET" 
                 href="{$config:server}/{$app}/api/search/document?query={$query}&amp;title={$title}&amp;author={$author}&amp;language={$language}"/>
                 
-        let $return:= parse-json(util:base64-decode(http:send-request($request)[2]))
-        return 
-            if ($return instance of map(*)) then 
-                [$return]
-            else if ($return instance of array(*)) then
-                $return
-            else 
-                ()
+            return parse-json(util:base64-decode(http:send-request($request)[2]))
+
+
+    let $facets := for $edition in $data return $edition?facets
+    let $results := for $edition in $data return $edition?data
+
+    let $hitCount := sum(for $result in $results return array:size($result))
 
     return 
+        <div>
+            <aside>
+                <div>
+                <h3>Facets</h3>
+                {teis:display-facets($facets)}
+                </div>
+            </aside>
             <div>
                 <h3>Query: author:{$author}  language: {$language} title: {$title} containing: {$query}</h3>
-                <h4>Matches: { sum(for $result in $results return array:size($result[1]))}</h4>
-
+                <h4>Matches: { $hitCount }</h4>
                 {for $result in $results return teis:display($result)}
             </div>
+        </div>
 };
 
 declare function teis:display($editions) {
@@ -239,8 +245,39 @@ declare function teis:display($editions) {
         </paper-card>
 };
 
-declare function teis:query-apps-available($request as map(*)) {
+declare function teis:display-facets($editions) {
+    let $facet-dimensions:= 
+        for $config in $config:facets?*
+            return $config?dimension
 
+
+    (: Aggregate facet data from editions :)
+    let $facets:= 
+        for $dimension in $facet-dimensions
+
+        return map {
+            $dimension:
+            for $edition in $editions
+                return
+                    $edition($dimension)
+        }
+
+    return 
+
+    for $dimension in $facet-dimensions
+        let $d := $facets($dimension)
+
+        return
+            <paper-card>
+                <h4>{$dimension}</h4>
+                {for $key in map:keys($d)
+                    return 
+                        <li>{$key} {$d($key)} </li>
+                }
+            </paper-card>
+};
+
+declare function teis:query-apps-available($request as map(*)) {
     for $app in $config:sub 
         return     
 
@@ -255,5 +292,18 @@ declare function teis:query-apps-available($request as map(*)) {
             </div>
             <h3>{$app?title}</h3>
         </div>
-           
+};
+
+declare function teis:facets($request as map(*)) {
+
+    let $facets:=
+        for $app in $config:sub?app
+                let $request := 
+                    <http:request method="GET" 
+                    href="{$config:server}/{$app}/api/search/facets"/>
+                    
+                let $return:= parse-json(util:base64-decode(http:send-request($request)[2]))
+                return $return
+    
+    return $facets
 };

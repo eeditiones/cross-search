@@ -7,6 +7,7 @@ import module namespace config="http://www.tei-c.org/tei-simple/config" at "../.
 import module namespace tpu="http://www.tei-c.org/tei-publisher/util" at "../util.xql";
 import module namespace kwic="http://exist-db.org/xquery/kwic" at "resource:org/exist/xquery/lib/kwic.xql";
 import module namespace facets="http://teipublisher.com/facets" at "../../facets.xql";
+import module namespace teis="http://www.tei-c.org/tei-simple/query/tei" at "../../query-tei.xql";
 
 
 declare namespace tei="http://www.tei-c.org/ns/1.0";
@@ -108,15 +109,5 @@ declare %private function sapi:show-hits($request as map(*), $hits as item()*, $
 };
 
 declare function sapi:facets($request as map(*)) {
-    
-    let $hits := session:get-attribute($config:session-prefix || ".hits")
-    where count($hits) > 0
-    return
-        <div>
-        {
-            for $config in $config:facets?*
-            return
-                facets:display($config, $hits)
-        }
-        </div>
+    teis:facets($request)
 };
