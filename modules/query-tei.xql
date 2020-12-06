@@ -208,6 +208,21 @@ declare function teis:query-document($request as map(*)) {
                     ()
         , '&amp;')
 
+
+          let $summary := string-join(
+        for $p in map:keys($params)
+            return 
+                if($params($p)) then 
+                        for $entry in $params($p) 
+                        return
+                            if (not(ends-with($p, '-operator'))) then
+                                $p || ':' ||$entry
+                            else
+                                ()
+                else
+                    ()
+        , ', ')
+
     let $data :=
         for $app in $config:sub?app
             let $request := 
@@ -231,7 +246,7 @@ declare function teis:query-document($request as map(*)) {
                 </div>
             </aside>
             <div>
-                <h3>Query: author:{$author}  language: {$language} title: {$title} containing: {$query}</h3>
+                <h3>Query: {$summary}</h3>
                 <h4>Matches: { $hitCount }</h4>
                 {for $result in $results return teis:display($result)}
             </div>
