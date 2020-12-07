@@ -328,7 +328,7 @@
                         </paper-card>
 
                         <paper-card class="search-results"  data-i18n="[heading]umbrella.panels.results">
-                            <pb-load id="results" url="api/search/document" emit="results" subscribe="search"></pb-load>
+                            <pb-load id="results" url="api/search/document" subscribe="search"></pb-load>
                         </paper-card>
                             <aside>                   
                                 <paper-card class="search-form" data-i18n="[heading]umbrella.panels.criteria" heading="Search">
@@ -377,10 +377,10 @@
     </pb-page>
     <div class="splash"/>
     <script>
-        const facets = document.getElementById('facets');
-        if (facets) {
-            facets.addEventListener('pb-custom-form-loaded', function(ev) {
-                const elems = ev.detail.querySelectorAll('.facet');
+            document.addEventListener('pb-end-update', function(ev) {
+                console.log('event %o', ev.detail);
+                const elems = document.querySelectorAll('.facet');
+
                 elems.forEach(facet =&gt; {
                     facet.addEventListener('change', () =&gt; {
                         const table = facet.closest('table');
@@ -391,11 +391,18 @@
                                 }
                             });
                         }
-                        facets.submit();
+                        const json = document.getElementById('facets').serializeForm();
+                        console.log('params %o', json);
+                        const ev = new CustomEvent('pb-search-resubmit', {
+                            detail: { 'params': json, 'key': 'search'},
+                            composed: true,
+                            bubbles: true
+                        });
+                        document.dispatchEvent(ev);
                     });
                 });
             });
-        }
+
     </script>
 </body>
 
