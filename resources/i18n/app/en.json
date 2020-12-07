@@ -1,5 +1,22 @@
 {
-    "myapp": {
-        "title": "Foo"
+    "umbrella": {
+        "title": "Aggregate search over multiple editions",
+        "query": "Query: ",
+        "matches": "Matches: ",
+        "facets": {
+            "corpus": "Edition"
+        },
+        "panels": {
+            "results": "Search results",
+            "criteria": "Search criteria",
+            "facets": "Facets",
+            "editions": "Editions",
+            "about": "About"
+        },
+        "search": {
+            "author": "Author",
+            "title": "Title",
+            "language": "Language"
+        }
     }
 }

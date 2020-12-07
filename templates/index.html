@@ -265,7 +265,8 @@
 </head>
 
 <body>
-    <pb-page data-template="pages:pb-page" unresolved="unresolved">
+    <pb-page data-template="pages:pb-page" unresolved="unresolved"
+        locales="resources/i18n/{{ns}}/{{lng}}.json" locale-fallback-ns="app">
         <app-drawer-layout force-narrow="force-narrow">
             <app-drawer slot="drawer" align="right">
                 <div class="drawer-content">
@@ -283,7 +284,9 @@
                         </a>
                         <pb-media-query query="(min-width: 1024px)">
                             <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
-                            <a href="${app}/about.xml" data-template="pages:parse-params">About</a>
+                            <a href="${app}/about.xml" data-template="pages:parse-params">
+                                <pb-i18n key="umbrella.panels.about">About</pb-i18n>
+                            </a>
 
                             <pb-restricted login="login" group="tei">
                                 <paper-menu-button>
@@ -316,52 +319,26 @@
 
                 <main>
                     <section>
-                        <h1 class="tp-title" data-template="config:app-title"/>
+                        <h1 class="tp-title"><pb-i18n key="umbrella.title">Cross-search</pb-i18n></h1>
                     </section>
                     
                     <section class="panels">
-                        <paper-card class="tiles" heading="Editions">
+                        <paper-card class="tiles" data-i18n="[heading]umbrella.panels.editions">
                             <pb-load id="apps" url="api/apps" auto="" load-once="load-once" subscribe="null"></pb-load>
                         </paper-card>
 
-                        <paper-card class="search-results" heading="Search results">
+                        <paper-card class="search-results"  data-i18n="[heading]umbrella.panels.results">
                             <pb-load id="results" url="api/search/document" emit="results" subscribe="search"></pb-load>
                         </paper-card>
-                    <!--
-                        <paper-card class="doclist" data-i18n="[heading]browse.documents" heading="documents">
-                            <div class="card-content">
-                                <div class="browse" slot="page">
-                                    <pb-custom-form id="facets" url="api/search/facets" event="pb-results-received" subscribe="docs" emit="docs"/>
-                                    <pb-browse-docs id="document-list" url="api/collection/" sort-options="[{&#34;label&#34;: &#34;browse.title&#34;, &#34;value&#34;: &#34;title&#34;},{&#34;label&#34;: &#34;browse.author&#34;, &#34;value&#34;: &#34;author&#34;}]" sort-by="title" filter-options="[{&#34;label&#34;: &#34;browse.title&#34;, &#34;value&#34;: &#34;title&#34;},{&#34;label&#34;: &#34;browse.author&#34;, &#34;value&#34;: &#34;author&#34;},{&#34;label&#34;: &#34;browse.file&#34;, &#34;value&#34;: &#34;file&#34;}]" filter-by="title" auto="auto" history="history" login="login" emit="docs" subscribe="docs">
-                                        <pb-paginate slot="toolbar" id="paginate" per-page="10" range="5" emit="docs" subscribe="docs"/>
-                                        <pb-restricted login="login" slot="toolbar">
-                                            <pb-ajax emit="docs" url="api/odd" method="post" data-template="pages:parse-params" event="pb-search-resubmit" title="Recompile ODD" data-i18n="[title]odd.manage.regenerate-all">
-                                                <h3 slot="title">
-                                                    <pb-i18n key="odd.manage.regenerate-all"/>
-                                                </h3>
-                                                <paper-icon-button icon="icons:update"/>
-                                            </pb-ajax>
-                                        </pb-restricted>
-                                    </pb-browse-docs>
-                                </div>
-                            </div>
-                        </paper-card>
-
-                        
-                    -->
                             <aside>                   
-                                <paper-card class="search-form" data-i18n="[heading]search.search" heading="Search">
+                                <paper-card class="search-form" data-i18n="[heading]umbrella.panels.criteria" heading="Search">
                                     <div class="card-content">
                                         <pb-search id="search-form" subscribe="search" emit="search"
                                                 data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
-                                                <paper-input label="Author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
-                                                <paper-input label="Title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
-                                                <paper-input label="Language" name="language" data-template="pages:parse-params" value="${language}"></paper-input>
+                                                <paper-input data-i18n="[label]umbrella.search.author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
+                                                <paper-input data-i18n="[label]umbrella.search.title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
+                                                <paper-input data-i18n="[label]umbrella.search.language" name="language" data-template="pages:parse-params" value="${language}"></paper-input>
                                         </pb-search>
-        <!--pb-custom-form id="facets" url="api/search/facets" subscribe="results" event="pb-results-received" emit="search"/-->
-
-
-                                       
                                     </div>
                                 </paper-card>
                             </aside>

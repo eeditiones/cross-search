@@ -1,0 +1,22 @@
+{
+    "umbrella": {
+        "title": "Wyszukiwanie zagregowane",
+        "query": "Kwerenda: ",
+        "matches": "Dopasowania: ",
+        "facets": {
+            "corpus": "Edycja"
+        },
+        "panels": {
+            "results": "Wyniki wyszukiwania",
+            "criteria": "Kryteria wyszukiwania",
+            "facets": "Filtry",
+            "editions": "Edycje",
+            "about": "O projekcie"
+        },
+        "search": {
+            "author": "Autor",
+            "title": "Tytuł",
+            "language": "Język"
+        }
+    }
+}

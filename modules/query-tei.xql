@@ -241,13 +241,13 @@ declare function teis:query-document($request as map(*)) {
         <div>
             <aside>
                 <div>
-                <h3>Facets</h3>
+                <h3><pb-i18n key="umbrella.panels.facets">Facets</pb-i18n></h3>
                 {teis:display-facets($facets)}
                 </div>
             </aside>
             <div>
-                <h3>Query: {$summary}</h3>
-                <h4>Matches: { $hitCount }</h4>
+                <h3><pb-i18n key="umbrella.query">Query:</pb-i18n> {$summary}</h3>
+                <h4><pb-i18n key="umbrella.matches">Matches:</pb-i18n> { $hitCount }</h4>
                 {for $result in $results return teis:display($result)}
             </div>
         </div>
