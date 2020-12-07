@@ -164,6 +164,15 @@
                                     "type": "string"
                                 }
                             }
+                    },
+                    {
+                        "name": "sort",
+                            "in": "query",
+                            "description": "sort",
+                            "schema": {
+                                "type": "string",
+                                "default": "title"
+                            }
                     }
                 ],
                 "responses": {

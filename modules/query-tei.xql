@@ -237,7 +237,14 @@ declare function teis:query-document($request as map(*)) {
     let $results := for $edition in $data return 
         if ($edition?data(1) instance of map(*) ) then $edition?data else ()
 
-    let $hitCount := sum(for $result in $results return array:size($result))
+    (: recombine returned results into a single map :)
+    let $entries :=  
+        for $edition in $results
+            for $i in 1 to array:size($edition)
+                return $edition($i)
+               
+
+    let $hitCount := count($entries)
 
     return 
         <div>
@@ -250,16 +257,23 @@ declare function teis:query-document($request as map(*)) {
             <div>
                 <h3><pb-i18n key="umbrella.query">Query:</pb-i18n> {$summary}</h3>
                 <h4><pb-i18n key="umbrella.matches">Matches:</pb-i18n> { $hitCount }</h4>
-                {for $result in $results return teis:display($result)}
+                {teis:display(teis:sort($entries, $request?parameters?sort))}
             </div>
         </div>
 };
 
-declare function teis:display($editions) {
-    for $edition in $editions
-    for $i in 1 to array:size($edition)
+declare function teis:sort($entries, $sort) {
+    for $i in $entries
+        let $s:= $i($sort)
+        (: make sure that only a single atomic value is used for sorting :)
+        let $first := if ($s instance of array(*)) then array:head($s) else $s
+        order by $first
 
-    let $entry:=$edition($i)
+    return $i
+};
+declare function teis:display($entries) {
+    for $entry in $entries
+    
     return 
 
         <paper-card>
