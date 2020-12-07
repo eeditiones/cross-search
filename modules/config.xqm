@@ -92,6 +92,7 @@ declare variable $config:pagination-depth := 10;
  :)
 declare variable $config:pagination-fill := 5;
 
+(: Configuration for cross-search :)
 declare variable $config:sub := (
     map {
         "app": "eltec", 
@@ -105,15 +106,20 @@ declare variable $config:sub := (
     });
 
 (:
- : Display configuration for facets to be shown in the sidebar. The facets themselves
- : are configured in the index configuration, collection.xconf.
+ : Display configuration for facets to be shown and accepted in the search.
  :)
 declare variable $config:facets := [
+     map {
+        "dimension": "corpus",
+        "heading": "umbrella.facets.corpus",
+        "max": 5,
+        "hierarchical": false()
+    },
     map {
         "dimension": "genre",
         "heading": "facets.genre",
         "max": 5,
-        "hierarchical": true()
+        "hierarchical": false()
     },
     map {
         "dimension": "language",

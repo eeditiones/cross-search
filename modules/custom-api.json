@@ -61,8 +61,7 @@
                                 "items": {
                                     "type": "string"
                                 }
-                            },
-                            "example": "este"
+                            }
                     },
                     {
                         "name": "query-operator",
@@ -82,8 +81,7 @@
                                 "items": {
                                     "type": "string"
                                 }
-                            },
-                            "example": "z*"
+                            }
                     },
                     {
                         "name": "author-operator",
@@ -94,7 +92,6 @@
                                 "default": "or"
                             }
                     },
-
                     {
                         "name": "title",
                             "in": "query",
@@ -104,8 +101,7 @@
                                 "items": {
                                     "type": "string"
                                 }
-                            },
-                            "example": "rom*"
+                            }
                     },
                     {
                         "name": "title-operator",
@@ -125,13 +121,12 @@
                                 "items": {
                                     "type": "string"
                                 }
-                            },
-                            "example": "ro"
+                            }
                     },
                     {
-                        "name": "title-operator",
+                        "name": "language-operator",
                             "in": "query",
-                            "description": "Logical conjunction for title queries",
+                            "description": "Logical conjunction for language queries",
                             "schema": {
                                 "type": "string",
                                 "default": "or"
@@ -152,6 +147,17 @@
                         "name": "facet-genre",
                             "in": "query",
                             "description": "Genre facet",
+                            "schema": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                    },
+                    {
+                        "name": "facet-corpus",
+                            "in": "query",
+                            "description": "Corpus facet",
                             "schema": {
                                 "type": "array",
                                 "items": {
