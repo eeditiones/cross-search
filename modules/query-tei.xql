@@ -209,7 +209,7 @@ declare function teis:query-document($request as map(*)) {
         , '&amp;')
 
 
-          let $summary := string-join(
+    let $summary := string-join(
         for $p in map:keys($params)
             return 
                 if($params($p)) then 
@@ -231,9 +231,11 @@ declare function teis:query-document($request as map(*)) {
                                 
             return parse-json(util:base64-decode(http:send-request($request)[2]))
 
-
-    let $facets := for $edition in $data return $edition?facets
-    let $results := for $edition in $data return $edition?data
+    (: Set facets and results, checking if there are actual matches returned and not just empty arrays  :)
+    let $facets := for $edition in $data return 
+        if ($edition?data(1) instance of map(*)) then $edition?facets else ()
+    let $results := for $edition in $data return 
+        if ($edition?data(1) instance of map(*) ) then $edition?data else ()
 
     let $hitCount := sum(for $result in $results return array:size($result))
 
