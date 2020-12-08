@@ -335,9 +335,13 @@
                                     <div class="card-content">
                                         <pb-search id="search-form" subscribe="search" emit="search"
                                                 data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
-                                                <paper-input data-i18n="[label]umbrella.search.author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
-                                                <paper-input data-i18n="[label]umbrella.search.title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
-                                                <paper-input data-i18n="[label]umbrella.search.language" name="language" data-template="pages:parse-params" value="${language}"></paper-input>
+                                            <paper-input data-i18n="[label]umbrella.search.author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
+                                            <paper-input data-i18n="[label]umbrella.search.title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
+                                            <paper-input data-i18n="[label]umbrella.search.language" name="language" data-template="pages:parse-params" value="${language}"></paper-input>
+                                            <pb-select data-i18n="[label]umbrella.search.sort" name="sort" data-template="pages:parse-params" value="${sort}">
+                                                <paper-item value="title"><pb-i18n key="umbrella.search.title"/></paper-item>
+                                                <paper-item value="author"><pb-i18n key="umbrella.search.author"/></paper-item>
+                                            </pb-select>
                                         </pb-search>
                                     </div>
                                 </paper-card>

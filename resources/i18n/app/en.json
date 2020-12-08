@@ -16,7 +16,8 @@
         "search": {
             "author": "Author",
             "title": "Title",
-            "language": "Language"
+            "language": "Language",
+            "sort": "Sort by"
         }
     }
 }
