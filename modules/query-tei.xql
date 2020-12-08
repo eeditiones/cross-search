@@ -247,18 +247,15 @@ declare function teis:query-document($request as map(*)) {
     let $hitCount := count($entries)
 
     return 
-        <div>
-            <aside>
-                <div>
-                <h3><pb-i18n key="umbrella.panels.facets">Facets</pb-i18n></h3>
+        <div class="results">
+            <paper-card class="facets" data-i18n="[heading]umbrella.panels.facets">
                 {teis:display-facets($facets)}
-                </div>
-            </aside>
-            <div>
+            </paper-card>  
+            <paper-card class="matches" data-i18n="[heading]umbrella.panels.results">
                 <h3><pb-i18n key="umbrella.query">Query:</pb-i18n> {$summary}</h3>
                 <h4><pb-i18n key="umbrella.matches">Matches:</pb-i18n> { $hitCount }</h4>
                 {teis:display(teis:sort($entries, $request?parameters?sort))}
-            </div>
+            </paper-card>
         </div>
 };
 
@@ -275,7 +272,6 @@ declare function teis:display($entries) {
     for $entry in $entries
     
     return 
-
         <paper-card>
             <h3><a href="{$config:server}/{$entry?app}/{$entry?filename}" target="_blank">{$entry?title}</a></h3>
             <h4>{$entry?author}</h4>
@@ -357,14 +353,12 @@ declare function teis:query-apps-available($request as map(*)) {
     for $app in $config:sub 
         return     
 
-        <div>
+        <div class="tiles">
             <div class="round">
                 <a href="../{$app?app}/index.html"  data-template="pages:parse-params"
                     title="{$app?title}" target="_blank">
-                        <img height="160px" alt="{$app?title}" src="../{$app?app}/resources/images/{$app?icon}" data-template="pages:parse-params"/>
-                        
+                        <img alt="{$app?title}" src="../{$app?app}/resources/images/{$app?icon}" data-template="pages:parse-params"/>
                 </a>
-                
             </div>
             <h3>{$app?title}</h3>
         </div>

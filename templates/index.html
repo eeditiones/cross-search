@@ -24,15 +24,6 @@
                 main {
                     margin: 0 8px 0 8px;
                 }
-                .doclist {
-                    margin-bottom: 20px;
-                }
-                .documents {
-                    padding-left: 10px;
-                }
-                .documents .label {
-                    display: none;
-                }
                 .toolbar pb-search {
                     padding-left: 0;
                 }
@@ -53,12 +44,6 @@
                 margin-top: 12px;
             }
             
-            pb-results {
-                overflow: scroll;
-                margin: 0 20px;
-                height: calc(100vh - 128px);
-            }
-            
             @media (min-width: 1024px) {
                 .toolbar {
                     display: none;
@@ -67,63 +52,51 @@
                     display: flex;
                     flex-direction: row;
                 }
-                .panels .doclist {
-                    flex: 2 auto;
-                    margin-right: 20px;
-                }
             }
             
+            .panels paper-card {
+                margin: 0px 5px;
+                padding: 8px;
+            }
+
             .panels {
-                margin-bottom: 40px;
+                display: flex;
+                flex-direction: row;
+                padding: 10;
             }
-            
-            .panels .doclist {
-                --paper-tabs-selection-bar-color: #607D8B;
-                --paper-tab-content: {
-                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
-                    font-weight: 400;
-                }
-                ;
-                --paper-card-header: {
-                    background-color: #d1dae0;
-                }
-                ;
-                --paper-card-header-text: {
-                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
-                    font-size: 16px;
-                    font-weight: 400;
-                }
-                ;
-            }
-            
-            paper-card.search-form, paper-card.tiles {
+
+            paper-card.search-form, paper-card.tiles{
                 flex: 1;
             }
             
-            paper-card.search-results {
-                flex: 2;
-                margin-right: 20px;
-            }
-
-            .panels .doclist .browse {
+            .results {
+                flex: 1;
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
-                padding: 10;
             }
-            
-            #document-list {
-                flex: 2;
-                margin-right: 20px;
-            }
-            
-            .search-panel {
-                flex: 1;
+
+            paper-card.matches, paper-card.facets  {
                 display: flex;
                 flex-direction: column;
-                min-width: 360px;
+                width: auto;
+                height: calc(100vh - 10px);
+                overflow: scroll;
             }
-            
+          
+            paper-card.matches {
+                flex: 3;
+            }
+
+            paper-card.facets {
+                flex: 1;
+            }
+
+            .facets paper-card {
+                flex: 1;
+                box-shadow: none;
+            }
+
             aside .search {
                 --paper-card-header: {
                     background-color: #607D8B;
@@ -138,7 +111,6 @@
                 ;
             }
             
-            
             .parent-link iron-icon {
                 padding-right: 4px;
             }
@@ -149,44 +121,6 @@
                 margin-top: 16px;
                 padding: 6px 0;
                 border-bottom: thin solid var(--paper-grey-300);
-            }
-
-            .documents ul {
-                list-style: none;
-            }
-            
-            .documents app-toolbar {
-                @apply --layout-start-justified;
-                font-size: 14px;
-                margin-top: 10px;
-                padding-left: 0;
-            }
-            
-            .documents div {
-                margin: 0;
-            }
-            
-            .documents a,
-            .documents a:visited {
-                color: #303F9F;
-                text-decoration: none;
-            }
-            
-            .documents li {
-                display: flex;
-                flex-direction: row;
-                margin-bottom: 10px;
-                padding: 6px 0;
-                border-bottom: thin solid var(--paper-grey-300);
-            }
-            
-            .documents li:last-child {
-                border: none;
-            }
-            
-            .documents .document-select {
-                flex: 0 0;
-                margin-right: 20px;
             }
             
             h1,
@@ -209,7 +143,6 @@
                 flex: 0;
                 min-width: 220px;
                 margin-right: 20px;
-                background-color: #F0F0F0;
                 padding: 0 10px;
             }
             
@@ -245,20 +178,7 @@
             }
 
 
-            #results {
-                flex: 2 1;
-                overflow: scroll;
-                margin: 0 20px;
-                height: calc(100vh - 140px);
-            }
-
-
-            #results paper-card {
-                width: 100%;
-                margin-bottom: 5px;
-                padding: 8px;
-            }
-
+           
 
         </style>
     </custom-style>
@@ -324,28 +244,30 @@
                     
                     <section class="panels">
                         <paper-card class="tiles" data-i18n="[heading]umbrella.panels.editions">
-                            <pb-load id="apps" url="api/apps" auto="" load-once="load-once" subscribe="null"></pb-load>
+                            <div class="card-content">
+                                <pb-load id="apps" url="api/apps" auto="" load-once="load-once" subscribe="null"></pb-load>
+                            </div>
                         </paper-card>
 
-                        <paper-card class="search-results"  data-i18n="[heading]umbrella.panels.results">
+                        
                             <pb-load id="results" url="api/search/document" subscribe="search"></pb-load>
+                        
+                                           
+                        <paper-card class="search-form" data-i18n="[heading]umbrella.panels.criteria" heading="Search">
+                            <div class="card-content">
+                                <pb-search id="search-form" subscribe="search" emit="search"
+                                        data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
+                                    <paper-input data-i18n="[label]umbrella.search.author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
+                                    <paper-input data-i18n="[label]umbrella.search.title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
+                                    <paper-input data-i18n="[label]umbrella.search.language" name="language" data-template="pages:parse-params" value="${language}"></paper-input>
+                                    <pb-select data-i18n="[label]umbrella.search.sort" name="sort" data-template="pages:parse-params" value="${sort}">
+                                        <paper-item value="title"><pb-i18n key="umbrella.search.title"/></paper-item>
+                                        <paper-item value="author"><pb-i18n key="umbrella.search.author"/></paper-item>
+                                    </pb-select>
+                                </pb-search>
+                            </div>
                         </paper-card>
-                            <aside>                   
-                                <paper-card class="search-form" data-i18n="[heading]umbrella.panels.criteria" heading="Search">
-                                    <div class="card-content">
-                                        <pb-search id="search-form" subscribe="search" emit="search"
-                                                data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
-                                            <paper-input data-i18n="[label]umbrella.search.author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
-                                            <paper-input data-i18n="[label]umbrella.search.title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
-                                            <paper-input data-i18n="[label]umbrella.search.language" name="language" data-template="pages:parse-params" value="${language}"></paper-input>
-                                            <pb-select data-i18n="[label]umbrella.search.sort" name="sort" data-template="pages:parse-params" value="${sort}">
-                                                <paper-item value="title"><pb-i18n key="umbrella.search.title"/></paper-item>
-                                                <paper-item value="author"><pb-i18n key="umbrella.search.author"/></paper-item>
-                                            </pb-select>
-                                        </pb-search>
-                                    </div>
-                                </paper-card>
-                            </aside>
+                            
                     </section>
                 </main>
                 <footer class="version">
