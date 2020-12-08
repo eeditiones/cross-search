@@ -6,7 +6,6 @@ Apps to be used for the prototype:
 
 * [Dodis](https://github.com/eeditiones/dodis-wall)
 * [ELTeC](https://github.com/eeditiones/eltec)
-* other if time allows
 
 ## Preliminary assumptions 
 
@@ -18,41 +17,77 @@ Apps to be used for the prototype:
   * document search: results are whole documents; corresponding to Publisher's metadata search
   * fragment search: results are document fragments: divisions/sections; corresponding to Publisher's full text search
  
-## Search parameters
 
-* full text query parameter(s) (e.g. search in entire text content, search in headings)
-* metadata parameters (e.g. title, author, date, number)
+* we run out of time for the fragment search in the current iteration*
 
-## API endpoints
+## Search
 
+### Individual
 
-### Individual apps
+Each of the apps to be aggregated in an umbrella search exposes the `/api/search/document` API endpoint:
 
-Each of the apps to be aggregated in an umbrella search needs to expose 2 API endpoints:
-
-* /api/search/document
-* /api/search/fragment
-
-Both endpoints allow for a number of parameters, for the prototype assuming title, author, language, id number and date. 
-Each parameter ideally refers to a facet dimension and a field definiton in the context of the app. 
-Each parameter accepts a pair: array of values and a logical conjunction (AND / OR).
-Additional parameter to determine the order of sorting
+It allows for a number of parameters, for the prototype assuming `title`, `author`, `lang(uage)` fields and `genre`, `language` and `corpus` facets. 
+Each parameter corresponds to a field or facet definiton in the context of the app. Configuration of the mapping between `api/search/document` parameters 
+and fields and facets of the app is realized via `config.xqm`: `$config:cross-search-facets` and `$config:cross-search-fields`.
+Each parameter has a corresponding `-operator` parameter representing a logical conjunction (AND / OR) to be used when querying for multiple base parameters 
+(e.g. `author` and `author-operator`).
+Parameters for use in facetted search follow the `facet-` naming pattern.
+Additional `sort` parameter determines the order of sorting.
 
 For example, a request could specify parameters as follows to express a search for 
 a document with a title containing the phrase 'TEI' and authored by Turska or Meier, containing the pattern 'compone*' anywhere in the document content:
 
-* text: compone*
-* author: [Turska, Meier], 'OR'
+* query: compone*
+* author: [Turska, Meier], 
+* author-operator: or
 * title: *TEI*
+* sort: author
 
-It is assumed that individual apps implement the endpoints in a way, which returns matching results (representing documents or document fragments) in a structure required for the aggregated search, namely:
+It is assumed that individual apps implement the endpoints in a way, which returns matching results (representing documents) in a 
+structure required for the aggregated search, namely:
 
-* in a JSON format containing
-  * document id (and path relative to the data root)
+* in a JSON format containing two parts
+  * data array containing matched results as maps with 
+    * app collection name
+    * document path relative to the app data root colection
+    * values for all the fields available for sorting
+  * facets containing facet counts corresponding with the matched results
+
+```json
+{
+  "data": [
+    {
+      "app": "dodis-facets",
+      "filename": "52928.xml",
+      "author": [
+        "Plattner, Johann (1932–)",
+        "Austria/Ministry of Foreign Affairs"
+      ],
+      "title": "Debatte über die deutsche Wiedervereinigung; Information und Sprachregelung",
+      "language": "de"
+    },
+    ...
+    ],
+  "facets": {
+    "genre": {
+      "Telegram": 1,
+      "Memo": 4
+    },
+    "corpus": {
+      "Dodis": 5
+    },
+    "language": {
+      "de": 5
+    }
+  }
+}
+```
+    
+Future, extended implementation might include also:
+
   * document fragment id (either xml:id or node-id) [optional]
   * full-text match ids [optional]
-  * values for all the fields available for sorting
-  * ODD-transformed document header
+  * ODD-transformed document header [optional]
   * ODD-transformed full-text content matched [optional]
 
 ### Umbrella app
@@ -61,6 +96,21 @@ Umbrella app exposes the same API endpoint, but these only trigger the search th
 
 Alternative approach would be that umbrella app actually runs the search through all relevant data collections at once but this would require that all apps share the fields and facets definitions.
 
+```xquery
 
+declare variable $config:cross-search-facets := 
+    map {
+            "genre": "genre", 
+            "language": "language-id",
+            "corpus": "corpus"      
+    };
+declare variable $config:cross-search-fields := 
+    map {
+        "lang": "language-id", 
+        "author":"author", 
+        "title":"title"
+    };
+    
+```
    
   
