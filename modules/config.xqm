@@ -26,7 +26,7 @@ declare namespace tei="http://www.tei-c.org/ns/1.0";
  : If a version is given, the components will be loaded from a public CDN.
  : This is recommended unless you develop your own components.
  :)
-declare variable $config:webcomponents :="1.7.1";
+declare variable $config:webcomponents :="local";
 
 (:~
  : CDN URL to use for loading webcomponents. Could be changed if you created your
@@ -133,6 +133,17 @@ declare variable $config:facets := [
                 case "la" return "Latin"
                 case "fr" return "French"
                 case "en" return "English"
+                case "ru" return "Russian"
+                case "pt" return "Portuguese"
+                case "hu" return "Hungarian"
+                case "iw" return "iw"
+                case "sl" return "Slovenian"
+                case "pl" return "Polish"
+                case "ro" return "Romanian"
+                case "nl" return "Dutch"
+                case "tr" return "Turkisch"
+              
+
                 default return $label
         }
     }

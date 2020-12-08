@@ -65,7 +65,13 @@
                 padding: 10;
             }
 
-            paper-card.search-form, paper-card.tiles{
+            paper-card.search-form {
+                min-width: 250px;
+                flex: 1;
+            }
+
+            paper-card.tiles{
+                max-width: 200px;
                 flex: 1;
             }
             
@@ -76,23 +82,31 @@
                 justify-content: space-between;
             }
 
-            paper-card.matches, paper-card.facets  {
+            paper-card.facets  {
+                max-width: 200px;
+                height: calc(100vh - 10px);
+                overflow: scroll;
+            }
+
+            pb-custom-form.facets {
+                display: flex;
+                flex-direction: column;
+            }
+          
+            paper-card.matches {
+                flex: 3;
                 display: flex;
                 flex-direction: column;
                 width: auto;
                 height: calc(100vh - 10px);
                 overflow: scroll;
             }
-          
-            paper-card.matches {
-                flex: 3;
-            }
 
             paper-card.facets {
                 flex: 1;
             }
 
-            .facets paper-card {
+            pb-custom-form paper-card {
                 flex: 1;
                 box-shadow: none;
             }
@@ -249,17 +263,15 @@
                             </div>
                         </paper-card>
 
-                        
-                            <pb-load id="results" url="api/search/document" subscribe="search"></pb-load>
-                        
+                        <pb-load id="results" url="api/search/document" subscribe="search"></pb-load>                        
                                            
                         <paper-card class="search-form" data-i18n="[heading]umbrella.panels.criteria" heading="Search">
                             <div class="card-content">
-                                <pb-search id="search-form" subscribe="search" emit="search"
+                                <pb-search id="search-form" subscribe="search" emit="search" subforms="pb-custom-form"
                                         data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
                                     <paper-input data-i18n="[label]umbrella.search.author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
                                     <paper-input data-i18n="[label]umbrella.search.title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
-                                    <paper-input data-i18n="[label]umbrella.search.language" name="language" data-template="pages:parse-params" value="${language}"></paper-input>
+                                    <paper-input data-i18n="[label]umbrella.search.language" name="lang" data-template="pages:parse-params" value="${lang}"></paper-input>
                                     <pb-select data-i18n="[label]umbrella.search.sort" name="sort" data-template="pages:parse-params" value="${sort}">
                                         <paper-item value="title"><pb-i18n key="umbrella.search.title"/></paper-item>
                                         <paper-item value="author"><pb-i18n key="umbrella.search.author"/></paper-item>
@@ -303,8 +315,9 @@
     </pb-page>
     <div class="splash"/>
     <script>
+        
             document.addEventListener('pb-end-update', function(ev) {
-                console.log('event %o', ev.detail);
+                console.log('facet event %o', ev.detail);
                 const elems = document.querySelectorAll('.facet');
 
                 elems.forEach(facet =&gt; {
@@ -317,14 +330,9 @@
                                 }
                             });
                         }
-                        const json = document.getElementById('facets').serializeForm();
-                        console.log('params %o', json);
-                        const ev = new CustomEvent('pb-search-resubmit', {
-                            detail: { 'params': json, 'key': 'search'},
-                            composed: true,
-                            bubbles: true
-                        });
-                        document.dispatchEvent(ev);
+                        const facets = document.getElementById('facets');
+                        console.log('facet change');
+                        facets._submit();
                     });
                 });
             });

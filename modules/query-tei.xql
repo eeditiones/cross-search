@@ -243,7 +243,6 @@ declare function teis:query-document($request as map(*)) {
             for $i in 1 to array:size($edition)
                 return $edition($i)
                
-
     let $hitCount := count($entries)
 
     return 
@@ -252,8 +251,10 @@ declare function teis:query-document($request as map(*)) {
                 {teis:display-facets($facets)}
             </paper-card>  
             <paper-card class="matches" data-i18n="[heading]umbrella.panels.results">
-                <h3><pb-i18n key="umbrella.query">Query:</pb-i18n> {$summary}</h3>
-                <h4><pb-i18n key="umbrella.matches">Matches:</pb-i18n> { $hitCount }</h4>
+                <div class="card-content">
+                    <h3><pb-i18n key="umbrella.query">Query:</pb-i18n> {$summary}</h3>
+                    <h4><pb-i18n key="umbrella.matches">Matches:</pb-i18n> { $hitCount }</h4>
+                </div>
                 {teis:display(teis:sort($entries, $request?parameters?sort))}
             </paper-card>
         </div>
@@ -298,14 +299,12 @@ declare function teis:display-facets($editions) {
                     $edition($dimension)
             )
         }
-    ))
+    ))      
 
     return 
-        <iron-form id="facets">
-            <form action="">
-                { teis:facets-form($facets) }
-            </form>
-        </iron-form>
+        <pb-custom-form id="facets" emit="search" subscribe="search">
+            { teis:facets-form($facets) }
+        </pb-custom-form>
 };
 
 
