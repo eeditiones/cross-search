@@ -97,12 +97,14 @@ declare variable $config:sub := (
     map {
         "app": "eltec", 
         "title": "ELTeC: European Literary Corpus",
-        "icon": "eltec-logo.jpeg"
+        "icon": "eltec-logo.jpeg",
+        "symbol": "icons:bookmark"
     },
     map { 
         "app": "dodis-facets",
         "title": "Dodis: When the Wall Came Down",
-        "icon": "trabi.jpg"
+        "icon": "trabi.jpg",
+        "symbol": "icons:drafts"
     });
 
 (:

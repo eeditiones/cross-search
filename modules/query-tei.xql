@@ -271,11 +271,19 @@ declare function teis:sort($entries, $sort) {
 };
 declare function teis:display($entries) {
     for $entry in $entries
+        let $app-config:= teis:app-config($entry?app)
     
     return 
         <paper-card>
-            <h3><a href="{$config:server}/{$entry?app}/{$entry?filename}" target="_blank">{$entry?title}</a></h3>
+            <h3>
+                <a href="{$config:server}/{$entry?app}/{$entry?filename}" target="_blank">{$entry?title}</a>
+            </h3>
             <h4>{$entry?author}</h4>
+            <h5>
+                <iron-icon icon="{$app-config?symbol}"/>
+                <a href="{$config:server}/{$entry?app}/{$entry?filename}" target="_blank">
+                {$app-config?title}</a>
+            </h5>
         </paper-card>
 };
 
@@ -375,4 +383,10 @@ declare function teis:facets($request as map(*)) {
                 return $return
     
     return $facets
+};
+
+declare function teis:app-config($key) {
+    for $map in $config:sub
+       let $app:= map:get($map, "app")
+       return if ($app=$key) then $map else ()
 };
