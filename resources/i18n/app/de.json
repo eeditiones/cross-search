@@ -1,0 +1,24 @@
+{
+    "umbrella": {
+        "title": "Gesamtsuche über mehrere Editionen",
+        "query": "Abfrage: ",
+        "matches": "Treffer: ",
+        "facets": {
+            "corpus": "Korpus"
+        },
+        "panels": {
+            "results": "Suchergebnisse",
+            "search": "Suche",
+            "criteria": "Suche",
+            "facets": "Filter",
+            "editions": "Korpora",
+            "about": "Über dieses projekt"
+        },
+        "search": {
+            "author": "Autor",
+            "title": "Titel",
+            "language": "Sprache",
+            "sort": "Sortieren nach"
+        }
+    }
+}

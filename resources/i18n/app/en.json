@@ -4,13 +4,14 @@
         "query": "Query: ",
         "matches": "Matches: ",
         "facets": {
-            "corpus": "Edition"
+            "corpus": "Corpus"
         },
         "panels": {
             "results": "Search results",
+            "search": "Search",
             "criteria": "Search criteria",
             "facets": "Facets",
-            "editions": "Editions",
+            "editions": "Corpora",
             "about": "About"
         },
         "search": {

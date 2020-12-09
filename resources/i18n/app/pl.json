@@ -8,6 +8,7 @@
         },
         "panels": {
             "results": "Wyniki wyszukiwania",
+            "search": "Szukaj",
             "criteria": "Kryteria wyszukiwania",
             "facets": "Filtry",
             "editions": "Edycje",
