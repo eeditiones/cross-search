@@ -289,25 +289,36 @@ declare function teis:display($entries) {
 
 
 declare function teis:display-facets($editions) {
-
     let $facet-dimensions:= 
         for $config in $config:facets?*
             return $config?dimension
 
     (: Aggregate facet data from editions :)
     let $facets:= 
-    map:merge((
-        for $dimension in $facet-dimensions
+        map:merge((
+            for $dimension in $facet-dimensions
+                (: retrieve all keys for a given dimension from all editions :)
+                let $keys := 
+                    for $edition in $editions
+                        return
+                            map:keys($edition($dimension))
 
-        return map {
-            $dimension:
-            map:merge(
-            for $edition in $editions
-                return
-                    $edition($dimension)
-            )
-        }
-    ))      
+                (: create a map entry for each keys with accumulated counts from all editions :)
+                let $maps := map:merge(
+                    for $key in $keys
+                    return
+                        map:entry($key, 
+                            sum(for $edition in $editions
+                                return
+                                    $edition($dimension)?($key)
+                            )
+                        )
+                    )
+
+            return map {
+                $dimension: map:merge($maps)
+            }
+        ))      
 
     return 
         <pb-custom-form id="facets" emit="search" subscribe="search">
