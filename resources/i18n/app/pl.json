@@ -4,14 +4,14 @@
         "query": "Kwerenda: ",
         "matches": "Dopasowania: ",
         "facets": {
-            "corpus": "Edycja"
+            "corpus": "Korpus"
         },
         "panels": {
             "results": "Wyniki wyszukiwania",
             "search": "Szukaj",
             "criteria": "Kryteria wyszukiwania",
             "facets": "Filtry",
-            "editions": "Edycje",
+            "editions": "Korpusy",
             "about": "O projekcie"
         },
         "search": {
