@@ -48,3 +48,17 @@ body {
 }
 
 .round img { width: 160px; height: 160px;}
+
+.version {
+    text-align: right;
+    font-size: 0.85em;
+    padding: 1em;
+    color: var(--pb-color-lighter);
+}
+
+.footer img {
+    height: 40px;
+    width: auto;
+    background-size: 100% 100%;
+    cursor: pointer;
+}
