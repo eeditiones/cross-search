@@ -27,9 +27,6 @@
                 .toolbar pb-search {
                     padding-left: 0;
                 }
-                #facets {
-                    display: none;
-                }
             }
             
             .tp-title {
@@ -59,140 +56,33 @@
                 padding: 8px;
             }
 
-            .panels {
+            div.editions {
+                width: 100%;
+                margin: 60px 20px;
+            }
+
+            pb-load > div {
                 display: flex;
                 flex-direction: row;
-                padding: 10;
+                justify-content: center;
             }
 
-            paper-card.search-form {
-                min-width: 250px;
-                flex: 1;
-            }
-
-            paper-card.tiles{
+            div.tiles {
+                flex-grow: 1;
                 max-width: 200px;
-                flex: 1;
-            }
-            
-            .results {
-                flex: 1;
-                display: flex;
-                flex-direction: row;
-                justify-content: space-between;
-            }
-
-            paper-card.facets  {
-                max-width: 200px;
-                height: calc(100vh - 10px);
-                overflow: scroll;
-            }
-
-            pb-custom-form.facets {
                 display: flex;
                 flex-direction: column;
             }
-          
-            paper-card.matches {
-                flex: 3;
-                display: flex;
-                flex-direction: column;
-                width: auto;
-                height: calc(100vh - 10px);
-                overflow: scroll;
-            }
 
-            paper-card.facets {
-                flex: 1;
+            div.tiles h3 {
+                text-align: center;
             }
-
-            pb-custom-form paper-card {
-                flex: 1;
-                box-shadow: none;
-            }
-
-            aside .search {
-                --paper-card-header: {
-                    background-color: #607D8B;
-                }
-                ;
-                --paper-card-header-text: {
-                    font-family: "Oswald", Verdana, "Helvetica", sans-serif;
-                    font-size: 16px;
-                    font-weight: 400;
-                    color: white;
-                }
-                ;
-            }
-            
-            .parent-link iron-icon {
-                padding-right: 4px;
-            }
-
-            .parent-link {
-                display: block;
-                margin-bottom: 10px;
-                margin-top: 16px;
-                padding: 6px 0;
-                border-bottom: thin solid var(--paper-grey-300);
-            }
-            
-            h1,
-            h2,
-            h3,
-            h4,
-            h5,
-            h6 {
+         
+            h1, h2, h3, h4, h5, h6 {
                 font-family: "Oswald", Verdana, "Helvetica", sans-serif;
                 font-weight: 400 !important;
                 line-height: 1.2;
-            }
-            
-            h5 {
-                font-size: 16px;
-                margin: 0;
-            }
-            
-            #facets {
-                flex: 0;
-                min-width: 220px;
-                margin-right: 20px;
-                padding: 0 10px;
-            }
-            
-            #facets h3 {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            }
-            
-            #facets h3 paper-checkbox {
-                margin-left: 16px;
-                font-size: 11px;
-            }
-            
-            #facets table {
-                font-size: 14px;
-            }
-            
-            #facets table table {
-                padding-left: 16px;
-                width: 100%;
-            }
-            
-            #facets table td {
-                padding: 4px 0;
-            }
-            
-            #facets table td:nth-child(2) {
-                color: #808080;
-                text-align: right;
-                padding-left: 1em;
-                vertical-align: middle;
-            }
-
-
-           
+            } 
 
         </style>
     </custom-style>
@@ -218,6 +108,9 @@
                         </a>
                         <pb-media-query query="(min-width: 1024px)">
                             <a href="${app}/index.html" data-template="pages:parse-params">Start</a>
+                            <a href="${app}/search.html" data-template="pages:parse-params">
+                                <pb-i18n key="umbrella.panels.Search">Search</pb-i18n>
+                            </a>
                             <a href="${app}/about.xml" data-template="pages:parse-params">
                                 <pb-i18n key="umbrella.panels.about">About</pb-i18n>
                             </a>
@@ -256,30 +149,17 @@
                         <h1 class="tp-title"><pb-i18n key="umbrella.title">Cross-search</pb-i18n></h1>
                     </section>
                     
-                    <section class="panels">
-                        <paper-card class="tiles" data-i18n="[heading]umbrella.panels.editions">
-                            <div class="card-content">
-                                <pb-load id="apps" url="api/apps" auto="" load-once="load-once" subscribe="null"></pb-load>
-                            </div>
-                        </paper-card>
+                    <section class="search">
+                        <div class="card-content">
+                            <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"/>
+                        </div>
+                    </section>
 
-                        <pb-load id="results" url="api/search/document" subscribe="search"></pb-load>                        
-                                           
-                        <paper-card class="search-form" data-i18n="[heading]umbrella.panels.criteria" heading="Search">
-                            <div class="card-content">
-                                <pb-search id="search-form" subscribe="search" emit="search" subforms="pb-custom-form"
-                                        data-template="pages:parse-params" value="${query}" submit-on-load="submit-on-load">
-                                    <paper-input data-i18n="[label]umbrella.search.author" name="author" data-template="pages:parse-params" value="${author}"></paper-input>
-                                    <paper-input data-i18n="[label]umbrella.search.title" name="title" data-template="pages:parse-params" value="${title}"></paper-input>
-                                    <paper-input data-i18n="[label]umbrella.search.language" name="lang" data-template="pages:parse-params" value="${lang}"></paper-input>
-                                    <pb-select data-i18n="[label]umbrella.search.sort" name="sort" data-template="pages:parse-params" value="${sort}">
-                                        <paper-item value="title"><pb-i18n key="umbrella.search.title"/></paper-item>
-                                        <paper-item value="author"><pb-i18n key="umbrella.search.author"/></paper-item>
-                                    </pb-select>
-                                </pb-search>
-                            </div>
-                        </paper-card>
+                    <section class="panels">
+                        <div class="editions">
                             
+                            <pb-load id="apps" url="api/apps" auto="" load-once="load-once" subscribe="null"></pb-load>
+                        </div>                                           
                     </section>
                 </main>
                 <footer class="version">
@@ -339,5 +219,4 @@
 
     </script>
 </body>
-
 </html>
