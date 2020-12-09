@@ -56,6 +56,11 @@
                 padding: 8px;
             }
 
+            section.search {
+                display: flex;
+                justify-content: center;
+            }
+
             div.editions {
                 width: 100%;
                 margin: 60px 20px;
@@ -75,6 +80,11 @@
             }
 
             div.tiles h3 {
+                text-align: center;
+            }
+
+            div.search {
+                width: 300px;
                 text-align: center;
             }
          
@@ -150,14 +160,13 @@
                     </section>
                     
                     <section class="search">
-                        <div class="card-content">
+                        <div class="search">
                             <pb-search action="${app}/search.html" data-template="pages:parse-params" value="${query}" redirect="redirect"/>
                         </div>
                     </section>
 
                     <section class="panels">
                         <div class="editions">
-                            
                             <pb-load id="apps" url="api/apps" auto="" load-once="load-once" subscribe="null"></pb-load>
                         </div>                                           
                     </section>
@@ -194,29 +203,5 @@
         </paper-dialog>
     </pb-page>
     <div class="splash"/>
-    <script>
-        
-            document.addEventListener('pb-end-update', function(ev) {
-                console.log('facet event %o', ev.detail);
-                const elems = document.querySelectorAll('.facet');
-
-                elems.forEach(facet =&gt; {
-                    facet.addEventListener('change', () =&gt; {
-                        const table = facet.closest('table');
-                        if (table) {
-                            const nested = table.querySelectorAll('.nested .facet').forEach(nested =&gt; {
-                                if (nested != facet) {
-                                    nested.checked = false;
-                                }
-                            });
-                        }
-                        const facets = document.getElementById('facets');
-                        console.log('facet change');
-                        facets._submit();
-                    });
-                });
-            });
-
-    </script>
 </body>
 </html>
