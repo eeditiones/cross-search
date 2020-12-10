@@ -1,5 +1,6 @@
 body {
-    --pb-splash-image: url(../images/cross.png);
+    --pb-splash-image: url(../images/splash.png);
+    --pb-splash-image-size: 1200px auto;
     --pb-header-background-image: none;
     --pb-drawer-background-color: var(--pb-color-inverse);
     --pb-menubar-background-color: #67b3da;
@@ -18,7 +19,7 @@ body {
 }
 
 .menubar {
-    height: 94px;
+    height: 100px;
     justify-content: space-between;
     background-image: var(--pb-menubar-background-image);
     background-color: var(--pb-menubar-background-color);
@@ -28,14 +29,16 @@ body {
 }
 
 .menubar .logo {
-    margin: 0 16px 0 0;
+    margin: 0 0 0 0;
+    height: 100%;
 }
 
 .logo img {
     width: auto;
-    height: 100px;
-    background-size: 100% 100%;
+    height: 96px;
     cursor: pointer;
+    padding: 4px 0;
+    background-color: white;
 }
 
 .round {
