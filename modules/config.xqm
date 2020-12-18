@@ -144,7 +144,6 @@ declare variable $config:facets := [
                 case "ru" return "Russian"
                 case "pt" return "Portuguese"
                 case "hu" return "Hungarian"
-                case "iw" return "iw"
                 case "sl" return "Slovenian"
                 case "pl" return "Polish"
                 case "ro" return "Romanian"
