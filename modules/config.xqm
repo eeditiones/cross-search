@@ -152,8 +152,6 @@ declare variable $config:facets := [
                 case "it" return "Italian"
                 case "iw" return "Hebrew"
                 case "cz" return "Czech"
-
-
                 default return $label
         }
     }
