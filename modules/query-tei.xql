@@ -174,7 +174,6 @@ declare function teis:expand($data as node()) {
             $expanded
 };
 
-
 declare %private function teis:query-default-view($context as element()*, $query as xs:string, $fields as xs:string+) {
     for $field in $fields
     return
@@ -201,21 +200,21 @@ declare function teis:query-document($request as map(*)) {
     let $q := string-join(
         for $p in map:keys($params)
             return 
-                if($params($p)) then 
+                if (count($params($p))) then 
                         for $entry in $params($p) return
-                        $p || '=' ||$entry
+                            if (normalize-space($entry) != '') then $p || '=' ||$entry else ()
                 else
                     ()
         , '&amp;')
 
-
+    (: Textual query summary to display :)
     let $summary := string-join(
         for $p in map:keys($params)
             return 
-                if($params($p)) then 
+                if (count($params($p))) then 
                         for $entry in $params($p) 
                         return
-                            if (not(ends-with($p, '-operator'))) then
+                            if (not(ends-with($p, '-operator')) and normalize-space($entry) != '') then
                                 $p || ':' ||$entry
                             else
                                 ()
@@ -269,6 +268,7 @@ declare function teis:sort($entries, $sort) {
 
     return $i
 };
+
 declare function teis:display($entries) {
     for $entry in $entries
         let $app-config:= teis:app-config($entry?app)
@@ -286,7 +286,6 @@ declare function teis:display($entries) {
             </h5>
         </paper-card>
 };
-
 
 declare function teis:display-facets($editions) {
     let $facet-dimensions:= 
