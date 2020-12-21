@@ -43,7 +43,6 @@ declare variable $config:origin-whitelist := (
     "(?:https?://localhost:.*|https?://127.0.0.1:.*)"
 );
 
-declare variable $config:server := 'http://localhost:8080/exist/apps';
 (:~
  : Should documents be located by xml:id or filename?
  :)
@@ -98,19 +97,22 @@ declare variable $config:sub := (
         "app": "eltec", 
         "title": "ELTeC: European Literary Corpus",
         "icon": "eltec-logo.jpeg",
-        "symbol": "icons:bookmark"
+        "symbol": "icons:bookmark",
+        "server": "http://localhost:8080/exist/apps"
     },
     map { 
         "app": "dodis-facets",
         "title": "Dodis: When the Wall Came Down",
         "icon": "trabi.jpg",
-        "symbol": "icons:drafts"
+        "symbol": "icons:drafts",
+        "server": "http://localhost:8080/exist/apps"
     },
     map { 
         "app": "serafin",
         "title": "Correspondence of Mikołaj Serafin",
         "icon": "serafin.jpg",
-        "symbol": "icons:mail"
+        "symbol": "icons:mail",
+        "server": "https://teipublisher.com/exist/apps"
     });
 
 (:

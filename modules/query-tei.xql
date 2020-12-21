@@ -223,10 +223,10 @@ declare function teis:query-document($request as map(*)) {
         , ', ')
 
     let $data :=
-        for $app in $config:sub?app
+        for $app in $config:sub
             let $request := 
                 <http:request method="GET" 
-                href="{$config:server}/{$app}/api/search/document?{$q}"/>
+                href="{$app?server}/{$app?app}/api/search/document?{$q}"/>
                                 
             return parse-json(util:base64-decode(http:send-request($request)[2]))
 
@@ -276,12 +276,12 @@ declare function teis:display($entries) {
     return 
         <paper-card>
             <h3>
-                <a href="{$config:server}/{$entry?app}/{$entry?filename}" target="_blank">{$entry?title}</a>
+                <a href="{$app-config?server}/{$entry?app}/{$entry?filename}" target="_blank">{$entry?title}</a>
             </h3>
             <h4>{$entry?author}</h4>
             <h5>
                 <iron-icon icon="{$app-config?symbol}"/>
-                <a href="{$config:server}/{$entry?app}/{$entry?filename}" target="_blank">
+                <a href="{$app-config?server}/{$entry?app}/{$entry?filename}" target="_blank">
                 {$app-config?title}</a>
             </h5>
         </paper-card>
@@ -384,10 +384,10 @@ declare function teis:query-apps-available($request as map(*)) {
 declare function teis:facets($request as map(*)) {
 
     let $facets:=
-        for $app in $config:sub?app
+        for $app in $config:sub
                 let $request := 
                     <http:request method="GET" 
-                    href="{$config:server}/{$app}/api/search/facets"/>
+                    href="{$app?server}/{$app?app}/api/search/facets"/>
                     
                 let $return:= parse-json(util:base64-decode(http:send-request($request)[2]))
                 return $return
