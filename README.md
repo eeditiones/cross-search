@@ -40,9 +40,9 @@ Additional `sort` parameter determines the order of sorting.
 
 declare variable $config:cross-search-facets := 
     map {
-            "genre": "genre", 
-            "language": "language-id",
-            "corpus": "corpus"      
+        "genre": "genre", 
+        "language": "language-id",
+        "corpus": "corpus"      
     };
 declare variable $config:cross-search-fields := 
     map {
@@ -125,6 +125,7 @@ Individual apps to be aggregated need to be explicitly specified in `modules/con
 * symbol - icon to be used to visually distinguish documents from different corpora
 * server - address of an exist instance on which the app is available
 
+```
 (: Configuration for cross-search :)
 declare variable $config:sub := (
     map {
@@ -148,7 +149,7 @@ declare variable $config:sub := (
         "symbol": "icons:mail",
         "server": "http://localhost:8080/exist/apps"
     });
-
+```
 
 
    
