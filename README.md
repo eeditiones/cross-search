@@ -1,24 +1,23 @@
-# umbrella-search
+# cross-search
 
 Prototype for an umbrella search over a number of Publisher apps
 
-Apps to be used for the prototype:
+Apps used for the prototype:
 
 * [Dodis](https://github.com/eeditiones/dodis-wall)
 * [ELTeC](https://github.com/eeditiones/eltec)
+* [Serafin](https://github.com/mikolajserafin/serafin7)
 
 ## Preliminary assumptions 
 
 * Publisher 7 based apps
-* running on a single eXist-db instance
 
 * comparable data sets; data can be encoded with any schema, but it should have the same (or at least mappable) fields and facets set defined and use the same taxonomies
 * umbrella search endpoints, accepting the same set of parameters but differing in what units are returned:
   * document search: results are whole documents; corresponding to Publisher's metadata search
   * fragment search: results are document fragments: divisions/sections; corresponding to Publisher's full text search
- 
 
-* we run out of time for the fragment search in the current iteration*
+*NB: we run out of time for the fragment search in the current iteration*
 
 ## Search
 
@@ -27,20 +26,20 @@ Apps to be used for the prototype:
 Each of the apps to be aggregated in an umbrella search exposes the `/api/search/document` API endpoint:
 
 It allows for a number of parameters, for the prototype assuming `title`, `author`, `lang(uage)` fields and `genre`, `language` and `corpus` facets. 
-Each parameter corresponds to a field or facet definiton in the context of the app. Configuration of the mapping between `api/search/document` parameters 
-and fields and facets of the app is realized via `config.xqm`: `$config:cross-search-facets` and `$config:cross-search-fields`.
-Each parameter has a corresponding `-operator` parameter representing a logical conjunction (AND / OR) to be used when querying for multiple base parameters 
-(e.g. `author` and `author-operator`).
+Each parameter corresponds to a field or facet definiton in the context of the app. Configuration of the mapping between `api/search/document` parameters and fields and facets of the app is realized via `config.xqm`: `$config:cross-search-facets` and `$config:cross-search-fields`.
+
+Each field parameter has a corresponding `-operator` parameter representing a logical conjunction (AND / OR) to be used when querying for multiple base parameters (e.g. `author` and `author-operator`).
+
 Parameters for use in facetted search follow the `facet-` naming pattern.
+
 Additional `sort` parameter determines the order of sorting.
 
-For example, a request could specify parameters as follows to express a search for 
-a document with a title containing the phrase 'TEI' and authored by Turska or Meier, containing the pattern 'compone*' anywhere in the document content:
+For a simple example, a request could specify parameters as follows to express a search for 
+a document with a title containing the phrase 'new' and authored by someone with a name starting with B, containing the word 'street' anywhere in the document content:
 
-* query: compone*
-* author: [Turska, Meier], 
-* author-operator: or
-* title: *TEI*
+* query: street
+* author: b*, 
+* title: new
 * sort: author
 
 It is assumed that individual apps implement the endpoints in a way, which returns matching results (representing documents) in a 
@@ -90,11 +89,11 @@ Future, extended implementation might include also:
   * ODD-transformed document header [optional]
   * ODD-transformed full-text content matched [optional]
 
-### Umbrella app
+### Cross-search app
 
-Umbrella app exposes the same API endpoint, but these only trigger the search through individual apps and pass on the results.
+Umbrella app exposes the same API endpoint, but it only triggers the search through individual apps via http request and passes on the results.
 
-Alternative approach would be that umbrella app actually runs the search through all relevant data collections at once but this would require that all apps share the fields and facets definitions.
+Alternative approach would be that umbrella app actually runs the search through all relevant data collections at once but this would require that all apps reside in a single eXist instance and ideally share the fields and facets definitions (a mapping could be established to run tailored queries if not).
 
 ```xquery
 
@@ -109,8 +108,7 @@ declare variable $config:cross-search-fields :=
         "lang": "language-id", 
         "author":"author", 
         "title":"title"
-    };
-    
+    }; 
 ```
    
   
