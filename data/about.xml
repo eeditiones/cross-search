@@ -155,7 +155,7 @@
         <section>
             <title>App configuration</title>
 
-            <para>Aggregate search app</para>
+            <para><emphasis role="bold">Aggregate search app</emphasis></para>
             <para>This aggregate search application implements the <code>api/search/document</code>
                 endpoint and exposes it in its custom API specification.</para>
             <para>Applications aggregated for search are specified in
@@ -170,18 +170,31 @@ declare variable $config:sub := (
         "app": "eltec", 
         "title": "ELTeC: European Literary Corpus",
         "icon": "eltec-logo.jpeg",
-        "symbol": "icons:bookmark"
+        "symbol": "icons:bookmark",
+        "server": "https://teipublisher.com/exist/apps"
     },
     map { 
         "app": "dodis-facets",
         "title": "Dodis: When the Wall Came Down",
         "icon": "trabi.jpg",
-        "symbol": "icons:drafts"
+        "symbol": "icons:drafts",
+        "server": "https://teipublisher.com/exist/apps"
+    },
+    map { 
+        "app": "serafin",
+        "title": "Correspondence of Mikołaj Serafin",
+        "icon": "serafin.png",
+        "symbol": "icons:mail",
+        "server": "https://teipublisher.com/exist/apps"
     });
-
                 </programlisting>
 
-            <para>Individual apps</para>
+            <note>
+                <para>For local development change the server property to <code>"server":
+                        "http://localhost:8080/exist/apps"</code></para>
+            </note>
+
+            <para><emphasis role="bold">Individual apps</emphasis></para>
             <para>An app needs to add a <code>api/search/document</code> path to the custom API
                 specification and implement the corresponding search function. This endpoing must
                 accept all the parameters specified in the corresponding aggregate search
@@ -192,9 +205,9 @@ declare variable $config:sub := (
             <programlisting language="xquery" xml:space="preserve">
 declare variable $config:cross-search-facets := 
     map {
-            "genre": "genre", 
-            "language": "language-id",
-            "corpus": "corpus"      
+        "genre": "genre", 
+        "language": "language-id",
+        "corpus": "corpus"      
     };
 declare variable $config:cross-search-fields := 
     map {
