@@ -34,6 +34,26 @@ Parameters for use in facetted search follow the `facet-` naming pattern.
 
 Additional `sort` parameter determines the order of sorting.
 
+#### Configuration
+
+```xquery
+
+declare variable $config:cross-search-facets := 
+    map {
+            "genre": "genre", 
+            "language": "language-id",
+            "corpus": "corpus"      
+    };
+declare variable $config:cross-search-fields := 
+    map {
+        "lang": "language-id", 
+        "author":"author", 
+        "title":"title"
+    }; 
+```
+
+#### Query example
+
 For a simple example, a request could specify parameters as follows to express a search for 
 a document with a title containing the phrase 'new' and authored by someone with a name starting with B, containing the word 'street' anywhere in the document content:
 
@@ -95,20 +115,41 @@ Umbrella app exposes the same API endpoint, but it only triggers the search thro
 
 Alternative approach would be that umbrella app actually runs the search through all relevant data collections at once but this would require that all apps reside in a single eXist instance and ideally share the fields and facets definitions (a mapping could be established to run tailored queries if not).
 
-```xquery
+#### Configuration 
 
-declare variable $config:cross-search-facets := 
+Individual apps to be aggregated need to be explicitly specified in `modules/config.xqm` as maps with following parameters:
+
+* app - collection in which an app is installed
+* title - title to be displayed on cross-search website
+* icon - image to be used for tiles in the cross-search app listing
+* symbol - icon to be used to visually distinguish documents from different corpora
+* server - address of an exist instance on which the app is available
+
+(: Configuration for cross-search :)
+declare variable $config:sub := (
     map {
-            "genre": "genre", 
-            "language": "language-id",
-            "corpus": "corpus"      
-    };
-declare variable $config:cross-search-fields := 
-    map {
-        "lang": "language-id", 
-        "author":"author", 
-        "title":"title"
-    }; 
-```
+        "app": "eltec", 
+        "title": "ELTeC: European Literary Corpus",
+        "icon": "eltec-logo.jpeg",
+        "symbol": "icons:bookmark",
+        "server": "http://localhost:8080/exist/apps"
+    },
+    map { 
+        "app": "dodis-facets",
+        "title": "Dodis: When the Wall Came Down",
+        "icon": "trabi.jpg",
+        "symbol": "icons:drafts",
+        "server": "http://localhost:8080/exist/apps"
+    },
+    map { 
+        "app": "serafin",
+        "title": "Correspondence of Mikołaj Serafin",
+        "icon": "serafin.png",
+        "symbol": "icons:mail",
+        "server": "http://localhost:8080/exist/apps"
+    });
+
+
+
    
   
