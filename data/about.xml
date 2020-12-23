@@ -15,16 +15,18 @@
 
         <para>This app is a prototype demonstrating how to build a search engine to query various
             editions exposing the TEI Publisher API at the same time.</para>
-        <para>Work on this prototype has been co-funded by DIPF / BBF. Development work has been
-            carried out by Magdalena Turska of eXist Solutions. </para>
+        <para>Work on this prototype has been co-funded by <link xlink:href="https://bbf.dipf.de/de"
+                xlink:show="new">DIPF / BBF</link>. Development work has been carried out by
+            Magdalena Turska of eXist Solutions. </para>
         <para>This cross-search engine leverages major developments of the TEI Publisher / eXist-db
             open source projects, particularly the Lucene-based facets and fields capacity of
             eXist-db and the Open API support of the TEI Publisher.</para>
-        <para>This prototype uses two TEI Publisher demo apps: <link
+        <para>This prototype uses following TEI Publisher demo apps: <link
                 xlink:href="https://github.com/eeditiones/dodis-wall">Dodis: When the Wall Came
-                Down</link> and the <link xlink:href="https://github.com/eeditiones/eltec">ELTeC:
-                European Literary Corpus</link> to showcase the concept.</para>
-
+                Down</link>, the <link xlink:href="https://github.com/eeditiones/eltec">ELTeC:
+                European Literary Corpus</link> and the <link
+                xlink:href="https://github.com/mikolajserafin/serafin7">Correspondence of Mikołaj
+                Serafin: 1437 - 1459</link> to showcase the concept.</para>
         <section>
             <title> Preliminary assumptions</title>
 
