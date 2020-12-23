@@ -1,107 +1,126 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
-<?xml-model href="http://www.tei-c.org/release/xml/tei/custom/schema/relaxng/tei_all.rng" type="application/xml"
-	schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<TEI xmlns="http://www.tei-c.org/ns/1.0">
-    <teiHeader>
-        <fileDesc>
-            <titleStmt>
-                <title>About this app</title>
-                <author>Magdalena Turska</author>
-            </titleStmt>
-            <publicationStmt>
-                <p>Publication Information</p>
-            </publicationStmt>
-            <sourceDesc>
-                <p>Information about the source</p>
-            </sourceDesc>
-        </fileDesc>
-    </teiHeader>
-    <text>
-        <body>
-            <div>
-                <head>About this project</head>
-                <p>This app is a prototype demonstrating how to build a search engine to query
-                    various editions exposing the TEI Publisher API at the same time.</p>
-                <p>Work on this prototype has been co-funded by DIPF / BBF. Development work has
-                    been carried out by Magdalena Turska of eXist Solutions. </p>
-                <p>This cross-search engine leverages major developments of the TEI Publisher /
-                    eXist-db open source projects, particularly the Lucene-based facets and fields
-                    capacity of eXist-db and the Open API support of the TEI Publisher.</p>
-                <p>This prototype uses two TEI Publisher demo apps: <ref
-                        target="https://github.com/eeditiones/dodis-wall">Dodis: When the Wall Came
-                        Down</ref> and the <ref target="https://github.com/eeditiones/eltec">ELTeC:
-                        European Literary Corpus</ref> to showcase the concept.</p>
+<?xml-model href="http://docbook.org/xml/5.1/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="http://docbook.org/xml/5.1/sch/docbook.sch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<?teipublisher odd="docbook.odd" template="documentation.html" ?>
+<article xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="5.1">
+    <info>
+        <title>About</title>
+        <author>
+            <personname>Magdalena Turska</personname>
+        </author>
+    </info>
+    <section>
+        <title>About cross-search</title>
 
-                <div>
-                    <head> Preliminary assumptions</head>
+        <para>This app is a prototype demonstrating how to build a search engine to query various
+            editions exposing the TEI Publisher API at the same time.</para>
+        <para>Work on this prototype has been co-funded by DIPF / BBF. Development work has been
+            carried out by Magdalena Turska of eXist Solutions. </para>
+        <para>This cross-search engine leverages major developments of the TEI Publisher / eXist-db
+            open source projects, particularly the Lucene-based facets and fields capacity of
+            eXist-db and the Open API support of the TEI Publisher.</para>
+        <para>This prototype uses two TEI Publisher demo apps: <link
+                xlink:href="https://github.com/eeditiones/dodis-wall">Dodis: When the Wall Came
+                Down</link> and the <link xlink:href="https://github.com/eeditiones/eltec">ELTeC:
+                European Literary Corpus</link> to showcase the concept.</para>
 
-                    <list>
-                        <item>initial targets are Publisher 7 based apps </item>
-                        <item>running on a single eXist-db instance</item>
-                        <item>with comparable data sets; data can be encoded with any schema, but it
-                            should have the same (or mappable) fields and facets set defined and
-                            using the same taxonomies </item>
-                        <item>exposing the predefined API endpoint, accepting the same set of
-                            parameters </item>
-                    </list>
-                </div>
-                <div>
-                    <head>Search parameters</head>
+        <section>
+            <title> Preliminary assumptions</title>
 
-                    <p> Each of the apps to be aggregated is required to expose the
-                            <code>/api/search/document</code> API endpoint. It must accept a number
-                        of parameters defined in the endpoint specification. For this prototype the
-                            <emph>title</emph>, <emph>author</emph>
-                        <emph>and lang(uage)</emph> fields as well as <emph>genre</emph>,
-                            <emph>language</emph> and <emph>corpus</emph> facets were assumed. </p>
+            <itemizedlist>
 
-                    <p>As mentioned earlier, each parameter corresponds to a field or facet
-                        definiton in the context of the individual app. Each field parameter (title,
-                        author and language) has a corresponding <code>-operator</code> parameter
-                        representing a logical conjunction (<emph>AND / OR</emph>) to be used when
-                        multiple values for a single parameter are passed to the query (e.g.
-                            <code>author</code> and <code>author-operator</code>). </p>
-                    <p> Parameters for use in facetted search follow the <code>facet-</code> naming
-                        pattern.</p>
-                    <p> Additional sort parameter determines the order of sorting.</p>
+                <listitem>
+                    <para>initial targets are Publisher 7 based apps</para>
+                </listitem>
+                <listitem>
+                    <para>running on a single eXist-db instance</para>
+                </listitem>
+                <listitem>
+                    <para>with comparable data sets; data can be encoded with any schema, but it
+                        should have the same (or mappable) fields and facets set defined and using
+                        the same taxonomies </para>
+                </listitem>
+                <listitem>
+                    <para>exposing the predefined API endpoint, accepting the same set of parameters
+                    </para>
+                </listitem>
+            </itemizedlist>
+        </section>
+        <section>
+            <title>Search parameters</title>
 
-                    <p>For example, a request could specify parameters as follows to express a
-                        search for a document with containing the phrase <emph>embassy</emph> and
-                        authored by someone for whom the part of their name starts with the letter
-                            <emph>F</emph> or <emph>B</emph>. Result set is expected to be ordered
-                        by the document title.</p>
-                    <list>
-                        <item><label>query:</label> embassy</item>
-                        <item><label>author:</label> F* or B*</item>
-                        <item><label>author-operator:</label> or</item>
+            <para> Each of the apps to be aggregated is required to expose the
+                    <code>/api/search/document</code> API endpoint. It must accept a number of
+                parameters defined in the endpoint specification. For this prototype the
+                    <emphasis>title</emphasis>, <emphasis>author</emphasis> and
+                    <emphasis>lang(uage)</emphasis> fields as well as <emphasis>genre</emphasis>,
+                    <emphasis>language</emphasis> and <emphasis>corpus</emphasis> facets were
+                assumed. </para>
 
-                        <item><label>sort:</label> title</item>
-                    </list>
+            <para>As mentioned earlier, each parameter corresponds to a field or facet definiton in
+                the context of the individual app. Each field parameter (title, author and language)
+                has a corresponding <code>-operator</code> parameter representing a logical
+                conjunction (<emphasis>AND / OR</emphasis>) to be used when multiple values for a
+                single parameter are passed to the query (e.g. <code>author</code> and
+                    <code>author-operator</code>). </para>
+            <para> Parameters for use in facetted search follow the <code>facet-</code> naming
+                pattern.</para>
+            <para> Additional sort parameter determines the order of sorting.</para>
 
-                </div>
-                <div>
-                    <head>Search results</head>
+            <para>For example, a request could specify parameters as follows to express a search for
+                a document with containing the phrase <emphasis>embassy</emphasis> and authored by
+                someone for whom the part of their name starts with the letter
+                    <emphasis>F</emphasis> or <emphasis>B</emphasis>. Result set is expected to be
+                ordered by the document title.</para>
+            <itemizedlist>
+                <listitem>
+                    <para><emphasis role="bold">query:</emphasis> embassy</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">author:</emphasis> F* or B*</para>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">author-operator:</emphasis> or</para>
+                </listitem>
 
-                    <p> It is required that individual apps implement the
-                            <code>api/search/document</code> endpoint in a way, which returns
-                        matching results (representing documents) in a structure required for the
-                        aggregated search, namely a JSON structure containing two parts: </p>
+                <listitem>
+                    <para><emphasis role="bold">sort:</emphasis> title</para>
+                </listitem>
+            </itemizedlist>
 
-                    <list>
-                        <item>
-                            <label>data:</label> an array containing matched results as maps with
-                            following keys: <list>
-                                <item>app collection name</item>
-                                <item>document path relative to the app data root colection</item>
-                                <item>values of all the fields available for sorting </item>
-                            </list>
-                        </item>
-                        <item><label>facets:</label> containing facet counts corresponding with the
-                            matched results </item>
-                    </list>
+        </section>
+        <section>
+            <title>Search results</title>
 
-                    <p xml:space="preserve">
+            <para> It is required that individual apps implement the
+                    <code>api/search/document</code> endpoint in a way, which returns matching
+                results (representing documents) in a structure required for the aggregated search,
+                namely a JSON structure containing two parts: </para>
+
+            <itemizedlist>
+                <listitem>
+                    <para><emphasis role="bold">data:</emphasis> an array containing matched results
+                        as maps with following keys: </para>
+                    <itemizedlist>
+                        <listitem>
+                            <para>app collection name</para>
+                        </listitem>
+                        <listitem>
+                            <para>document path relative to the app data root colection</para>
+                        </listitem>
+                        <listitem>
+                            <para>values of all the fields available for sorting </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+                <listitem>
+                    <para><emphasis role="bold">facets:</emphasis> containing facet counts
+                        corresponding with the matched results </para>
+                </listitem>
+            </itemizedlist>
+
+            <programlisting language="xquery" xml:space="preserve">
 {
   "data": [
     {
@@ -129,21 +148,20 @@
     }
   }
 }
-</p>
-                </div>
-                <div>
-                    <head>App configuration</head>
+                </programlisting>
+        </section>
+        <section>
+            <title>App configuration</title>
 
-                    <p>Aggregate search app</p>
-                    <p>This aggregate search application implements the
-                            <code>api/search/document</code> endpoint and exposes it in its custom
-                        API specification.</p>
-                    <p>Applications aggregated for search are specified in
-                            <code>modules/config.xqm</code> in the <code>$config:sub</code>
-                        variable. Each entry defines the app location, title to be used, tile image
-                        to be used in the Dashboard section and symbol icon to be used to
-                        distinguish the app in the matched results list. </p>
-                    <p xml:space="preserve">
+            <para>Aggregate search app</para>
+            <para>This aggregate search application implements the <code>api/search/document</code>
+                endpoint and exposes it in its custom API specification.</para>
+            <para>Applications aggregated for search are specified in
+                    <code>modules/config.xqm</code> in the <code>$config:sub</code> variable. Each
+                entry defines the app location, title to be used, tile image to be used in the
+                Dashboard section and symbol icon to be used to distinguish the app in the matched
+                results list. </para>
+            <programlisting language="xquery" xml:space="preserve">
 (: Configuration for cross-search :)
 declare variable $config:sub := (
     map {
@@ -159,17 +177,17 @@ declare variable $config:sub := (
         "symbol": "icons:drafts"
     });
 
-    </p>
+                </programlisting>
 
-                    <p>Individual apps</p>
-                    <p>An app needs to add a <code>api/search/document</code> path to the custom API
-                        specification and implement the corresponding search function. This endpoing
-                        must accept all the parameters specified in the corresponding aggregate
-                        search endpoint.</p>
-                    <p>Configuration of the mapping between <code>api/search/document</code>
-                        parameters and fields and facets of the app is realized via config.xqm:
-                        $config:cross-search-facets and $config:cross-search-fields.</p>
-                    <p xml:space="preserve">
+            <para>Individual apps</para>
+            <para>An app needs to add a <code>api/search/document</code> path to the custom API
+                specification and implement the corresponding search function. This endpoing must
+                accept all the parameters specified in the corresponding aggregate search
+                endpoint.</para>
+            <para>Configuration of the mapping between <code>api/search/document</code> parameters
+                and fields and facets of the app is realized via config.xqm:
+                $config:cross-search-facets and $config:cross-search-fields.</para>
+            <programlisting language="xquery" xml:space="preserve">
 declare variable $config:cross-search-facets := 
     map {
             "genre": "genre", 
@@ -182,24 +200,54 @@ declare variable $config:cross-search-fields :=
         "author":"author", 
         "title":"title"
     };
-    </p>
+    </programlisting>
 
-                </div>
-            </div>
-            <div>
-                <head>Roadmap for further development</head>
-                <p>search over remote instances</p>
-                <p>extended base parameter set</p>
-                <p>improved UI</p>
-                <p>stress-testing on larger data sets and under high load conditions</p>
-                <p>individualized display for the result set (leveraging ODD-transformation via
-                    individual apps)</p>
-                <p>fragment search: results are document fragments: divisions/sections;
-                    corresponding to Publisher's full text search extended implementation might
-                    include also: document fragment id (either xml:id or node-id) [optional]
-                    full-text match ids [optional] ODD-transformed document header [optional]
-                    ODD-transformed full-text content matched [optional] </p>
-            </div>
-        </body>
-    </text>
-</TEI>
+        </section>
+        <section>
+            <title>Roadmap for further development</title>
+
+            <itemizedlist>
+                <listitem>
+                    <para>extended base parameter set</para>
+                </listitem>
+                <listitem>
+                    <para>improved UI</para>
+                </listitem>
+                <listitem>
+                    <para>stress-testing on larger data sets and under high load conditions</para>
+                </listitem>
+                <listitem>
+                    <para>individualized display for the result set (leveraging ODD-transformation
+                        via individual apps)</para>
+                </listitem>
+                <listitem>
+                    <para>pagination for the result set</para>
+                </listitem>
+                <listitem>
+                    <para>fragment search: results are document fragments: divisions/sections;
+                        corresponding to Publisher's full text search </para>
+                </listitem>
+                <listitem>
+                    <para>extended implementation might include also:</para>
+                    <itemizedlist>
+                        <listitem>
+                            <para> document fragment id (either xml:id or node-id) [optional]
+                            </para>
+                        </listitem>
+                        <listitem>
+                            <para>full-text match ids [optional] </para>
+                        </listitem>
+                        <listitem>
+                            <para>ODD-transformed document header [optional] </para>
+                        </listitem>
+                        <listitem>
+                            <para>ODD-transformed full-text content matched [optional] </para>
+                        </listitem>
+                    </itemizedlist>
+                </listitem>
+            </itemizedlist>
+
+        </section>
+
+    </section>
+</article>
