@@ -1,0 +1,22 @@
+{
+    "servers": {
+        "localhost": {
+            "server": "http://localhost:8080/exist",
+            "user": "admin",
+            "password": "",
+            "root": "/db/apps/cross-search"
+        }
+    },
+    "sync": {
+        "server": "localhost",
+        "ignore": [
+            ".existdb.json",
+            ".git/**",
+            "components/**",
+            "node_modules/**",
+            "bower_components/**",
+            "build/**",
+            "webtest/**"
+        ]
+    }
+}

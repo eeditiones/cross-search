@@ -110,9 +110,9 @@ declare variable $config:sub := (
     map { 
         "app": "serafin",
         "title": "Correspondence of Mikołaj Serafin",
-        "icon": "serafin.jpg",
+        "icon": "serafin.png",
         "symbol": "icons:mail",
-        "server": "https://teipublisher.com/exist/apps"
+        "server": "http://localhost:8080/exist/apps"
     });
 
 (:

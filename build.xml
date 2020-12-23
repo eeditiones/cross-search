@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="tei-search" default="xar">
+<project name="cross-search" default="xar">
     <xmlproperty file="expath-pkg.xml"/><!-- Adjust path below to match location of your npm binary -->
     <property name="npm" value="/usr/local/bin/npm"/>
     <property name="project.version" value="${package(version)}"/>

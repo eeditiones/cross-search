@@ -1,8 +1,8 @@
 {
   "dependencies" : {
-    "@teipublisher/pb-components" : "1.7.1"
+    "@teipublisher/pb-components" : "1.14.0"
   },
-  "name" : "tei-search",
+  "name" : "cross-search",
   "version" : "1.0.0",
-  "description" : "Cross-search over a collection of TEI apps"
+  "description" : "Cross-search"
 }
